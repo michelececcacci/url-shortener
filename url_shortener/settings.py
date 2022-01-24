@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +27,7 @@ SECRET_KEY = 'django-insecure-epavo-ll9+b*4vu9s_f%^mcxff2pixw4oko-!=#l#qbno83vu&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [os.environ['HOST_URL']]
 
 
 # Application definition
@@ -39,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'django.contrib.staticfiles'
 ]
 
 MIDDLEWARE = [
@@ -77,15 +78,21 @@ WSGI_APPLICATION = 'url_shortener.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default' : {
-        'ENGINE' : 'django.db.backends.postgresql_psycopg2',
-        'NAME' : os.environ['DATABASE_NAME'],
-        'USER' : os.environ['USER'],
-        'PASSWORD': os.environ['PASSWORD'],
-        'HOST' : 'localhost',
-        'PORT' : '',
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+# DATABASES = {
+#     'default' : {
+#         'ENGINE' : 'django.db.backends.postgresql_psycopg2',
+#         'NAME' : os.environ['DATABASE_NAME'],
+#         'USER' : os.environ['USER'],
+#         'PASSWORD': os.environ['PASSWORD'],
+#         'HOST' : '127.0.1.1',
+#         'PORT' : os.environ['PORT'],
+#     }
+# }
 
 
 # Password validation
@@ -124,7 +131,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
+django_heroku.settings(locals())
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
