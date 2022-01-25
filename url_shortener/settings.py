@@ -78,22 +78,15 @@ WSGI_APPLICATION = 'url_shortener.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    'default' : {
+        'ENGINE' : 'django.db.backends.postgresql_psycopg2',
+        'NAME' : os.environ['DATABASE_NAME'],
+        'USER' : os.environ['USER'],
+        'PASSWORD': os.environ['PASSWORD'],
+        'HOST' : '127.0.1.1',
+        'PORT' : os.environ['PORT'],
     }
 }
-# DATABASES = {
-#     'default' : {
-#         'ENGINE' : 'django.db.backends.postgresql_psycopg2',
-#         'NAME' : os.environ['DATABASE_NAME'],
-#         'USER' : os.environ['USER'],
-#         'PASSWORD': os.environ['PASSWORD'],
-#         'HOST' : '127.0.1.1',
-#         'PORT' : os.environ['PORT'],
-#     }
-# }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

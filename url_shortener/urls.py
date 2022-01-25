@@ -16,10 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from api.views import Redirector
+from api.views import Redirector, TopClicked
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
-    path("<str:short>", Redirector.as_view())
+    path("<str:short>", Redirector.as_view()),
+    path('', TopClicked.as_view())
 ]

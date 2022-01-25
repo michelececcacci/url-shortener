@@ -21,3 +21,7 @@ class Redirector(View):
         redirect_instance.clicked += 1
         redirect_instance.save()
         return redirect(redirect_instance.long)
+
+class TopClicked(ListAPIView):
+    queryset = Site.objects.order_by('-clicked')[:5]
+    serializer_class = SiteSerializer
