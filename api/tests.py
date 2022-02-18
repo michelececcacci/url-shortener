@@ -2,7 +2,7 @@ from django.test import TestCase
 from api.models import Site
 
 class SiteGenerationTestCase(TestCase):
-    def site_creation_test(self):
+    def test_site_creation(self):
         original_long = "https://www.google.com/"
         google_site = Site.objects.create(long=original_long)
         generated_short = google_site.short

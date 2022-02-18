@@ -16,7 +16,7 @@ class ShortenerCreateApiView(CreateAPIView):
 
 class Redirector(View):
     def get(self, request, short, *args, **kwargs):
-        short_link = settings.BASE_URL+ self.kwargs["short"]
+        short_link = settings.BASE_URL + self.kwargs["short"]
         redirect_instance = Site.objects.filter(short=short_link).first()
         redirect_instance.clicked += 1
         redirect_instance.save()
