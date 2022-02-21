@@ -1,6 +1,7 @@
 # url-shortener
 Url shortener that uses a randomized algorithm and guarantees up to 2 billion unique ids based, with a fixed 6-character url short id.
-Built using django and postgresql
+Built using django and postgresql.
+Added sentry support to track failures
 
 API ROUTES (must be added to base url):
 ```
