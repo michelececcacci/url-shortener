@@ -1,6 +1,9 @@
-from django.test import TestCase
+from urllib import request
+from django.conf import settings
+from django.test import RequestFactory, TestCase
 from api.models import Site
-from api.views import Redirector
+from api.views import ShortenerClickLink, ShortenerLinkInfo
+from urllib.parse import  urlparse
 
 class SiteGenerationTestCase(TestCase):
     def setUp(self):
@@ -13,3 +16,10 @@ class SiteGenerationTestCase(TestCase):
     def test_default_clicks_zero(self):
         self.assertEquals(self.google_site.clicked, 0)
 
+    def test_increment_clicks(self):
+        factory = RequestFactory()
+        url_path = urlparse(self.google_site.short).path
+        final_url  = settings.BASE_URL + url_path[1:] + "/"
+        request = factory.get(final_url)
+        response = ShortenerClickLink().as_view()(request, short=url_path[1:])
+        self.assertEquals(response.data['clicked'], 1)

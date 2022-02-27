@@ -1,12 +1,12 @@
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect
 from django.views import View
-from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveAPIView
+from rest_framework.response import Response
 from sympy import re
 from .models import Site
 from .serializer import SiteSerializer
 from django.conf import  settings
-import pdb
 from rest_framework import exceptions
 
 
@@ -18,13 +18,23 @@ class ShortenerListAPIView(ListAPIView):
 class ShortenerCreateApiView(CreateAPIView):
     serializer_class = SiteSerializer
 
-class Redirector(View):
+class ShortenerLinkInfo(RetrieveAPIView):
+    serializer_class = SiteSerializer
     def get(self, request, short, *args, **kwargs):
-        short_link = settings.BASE_URL + self.kwargs["short"]
-        redirect_instance = get_object_or_404(Site, short=short_link)
-        redirect_instance.clicked += 1
-        redirect_instance.save()
-        return redirect(redirect_instance.long)
+        short_link = settings.BASE_URL + self.kwargs['short']
+        shortened_instance = get_object_or_404(Site, short=short_link)
+        serializer =  self.get_serializer(shortened_instance)
+        return Response(serializer.data)
+
+class ShortenerClickLink(RetrieveAPIView):
+    serializer_class = SiteSerializer
+    def get(self, request, short, *args, **kwargs):
+        short_link = settings.BASE_URL + self.kwargs['short']
+        shortened_instance = get_object_or_404(Site, short=short_link)
+        shortened_instance.clicked += 1
+        shortened_instance.save()
+        serializer = self.get_serializer(shortened_instance)
+        return Response(serializer.data)
 
 
 class TopClicked(ListAPIView):
