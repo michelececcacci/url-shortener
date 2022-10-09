@@ -6,7 +6,7 @@
 Url shortener that uses a randomized algorithm and guarantees up to 2 billion unique ids based, with a fixed 6-character url short id. 
 Built using Django and Postgresql. 
 
-Project deployed on Heroku. 
+The project deployed on Heroku, but not anymore since Heroku has cut free hosting. 
 
 Added sentry support to track failures both in production and in development environments. 
 
